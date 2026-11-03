@@ -95,7 +95,6 @@ h1 {
 .video-help { margin: 8px 4px 0; color: var(--muted); font-size: .9rem; text-align: center; }
 .video-help:empty { display: none; }
 .video-help code { font-size: .85em; }
-.video-file-note { margin: 8px 4px 0; color: var(--muted); font-size: .82rem; text-align: center; }
 .rsvp-intro .ornament { margin-top: 34px; }
 .rsvp-intro .eyebrow { margin: 10px 0 0; }
 .date {
