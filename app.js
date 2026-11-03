@@ -95,6 +95,15 @@ function isFullName(value) {
   return value.trim().split(/\s+/u).filter(Boolean).length >= 2;
 }
 
+function normalizeBrazilianMobile(value) {
+  const digits = String(value).replace(/\D/g, "");
+  return digits.length === 13 && digits.startsWith("55") ? digits.slice(2) : digits;
+}
+
+function isBrazilianMobile(value) {
+  return /^[1-9]\d9\d{8}$/.test(value);
+}
+
 document.querySelector("#add-child").addEventListener("click", addChild);
 spouseComing.addEventListener("change", () => {
   document.querySelector("#spouse-name-field").hidden = !spouseComing.checked;
@@ -140,8 +149,15 @@ form.addEventListener("submit", async event => {
   event.preventDefault();
   errorBox.textContent = "";
   const fullName = document.querySelector("#full-name").value.trim();
+  const phoneInput = document.querySelector("#phone");
+  const phone = normalizeBrazilianMobile(phoneInput.value);
   if (!isFullName(fullName)) {
     errorBox.textContent = "Informe seu nome completo.";
+    return;
+  }
+  if (!isBrazilianMobile(phone)) {
+    errorBox.textContent = "Informe um celular brasileiro válido com DDD (ex.: (11) 99999-9999).";
+    phoneInput.focus();
     return;
   }
   if (!privacyConsent.checked) {
@@ -172,12 +188,13 @@ form.addEventListener("submit", async event => {
   submitButton.textContent = "Enviando...";
   const payload = {
     full_name: fullName,
+    phone,
     response: selectedResponse,
     spouse_coming: selectedResponse === "yes" && spouse !== null,
     spouse_name: selectedResponse === "yes" ? spouse : null,
     children: selectedResponse === "yes" ? children : [],
     privacy_consent: privacyConsent.checked,
-    privacy_notice_version: "2026-11-v1",
+    privacy_notice_version: "2026-11-v2",
     children_consent: selectedResponse === "yes" && children.some(child => child.age < 18) && childrenConsent.checked,
     party_size: selectedResponse === "yes" ? 1 + (spouse ? 1 : 0) + children.length : null,
   };

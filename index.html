@@ -63,6 +63,11 @@
         <label for="full-name">Seu nome completo *</label>
         <input id="full-name" name="full_name" autocomplete="name" required maxlength="150">
       </div>
+      <div class="field">
+        <label for="phone">Seu celular com DDD *</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="24" aria-describedby="phone-hint">
+        <small class="form-note" id="phone-hint">Exemplo: (11) 99999-9999. Usaremos o número somente para contato sobre o convite e a organização do evento.</small>
+      </div>
       <div id="attendee-section">
         <fieldset class="family-card">
           <legend>Seu cônjuge</legend>
@@ -83,7 +88,7 @@
       <div class="privacy-consents">
         <label class="checkbox-field consent-checkbox">
           <input id="privacy-consent" type="checkbox" required>
-          <span>Li o <a href="privacidade.html" target="_blank" rel="noopener">aviso de privacidade</a> e autorizo o uso dos meus dados. Confirmo que as pessoas adultas incluídas foram informadas sobre este uso. *</span>
+          <span>Li o <a href="privacidade.html" target="_blank" rel="noopener">aviso de privacidade</a> e autorizo o uso do meu nome, celular e resposta para organizar o evento. Confirmo que as pessoas adultas incluídas foram informadas sobre este uso. *</span>
         </label>
         <label class="checkbox-field consent-checkbox" id="children-consent-field" hidden>
           <input id="children-consent" type="checkbox">

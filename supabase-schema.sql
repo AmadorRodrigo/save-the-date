@@ -51,6 +51,7 @@ revoke all on function public.valid_wedding_party(text, boolean, text, jsonb, bo
 create table if not exists public.rsvps (
   id uuid primary key default gen_random_uuid(),
   full_name text not null check (char_length(trim(full_name)) <= 150 and trim(full_name) ~ '^[^[:space:]]+[[:space:]]+[^[:space:]]+'),
+  phone text not null check (phone ~ '^[1-9][0-9]9[0-9]{8}$'),
   response text not null check (response in ('yes', 'maybe', 'no')),
   spouse_coming boolean not null default false,
   spouse_name text,
@@ -64,13 +65,14 @@ create table if not exists public.rsvps (
   message text check (message is null or char_length(message) <= 500),
   created_at timestamptz not null default now(),
   constraint rsvps_family_check check (public.valid_wedding_party(response, spouse_coming, spouse_name, children, children_consent, party_size)),
-  constraint rsvps_privacy_consent_check check (privacy_consent and privacy_notice_version = '2026-11-v1' and privacy_consent_at is not null),
+  constraint rsvps_privacy_consent_check check (privacy_consent and privacy_notice_version = '2026-11-v2' and privacy_consent_at is not null),
   constraint rsvps_children_consent_check check (children_consent = (children_consent_at is not null))
 );
 
 -- Se estiver atualizando a tabela da versão inicial, remova o modelo de acompanhantes antigo.
 alter table public.rsvps add column if not exists spouse_coming boolean not null default false;
 alter table public.rsvps add column if not exists spouse_name text;
+alter table public.rsvps add column if not exists phone text;
 alter table public.rsvps add column if not exists children jsonb not null default '[]'::jsonb;
 alter table public.rsvps add column if not exists privacy_consent boolean not null default false;
 alter table public.rsvps add column if not exists privacy_notice_version text;
@@ -79,13 +81,14 @@ alter table public.rsvps add column if not exists children_consent boolean not n
 alter table public.rsvps add column if not exists children_consent_at timestamptz;
 alter table public.rsvps drop constraint if exists rsvps_full_name_check;
 alter table public.rsvps add constraint rsvps_full_name_check check (char_length(trim(full_name)) <= 150 and trim(full_name) ~ '^[^[:space:]]+[[:space:]]+[^[:space:]]+') not valid;
-alter table public.rsvps drop column if exists phone;
 alter table public.rsvps drop column if exists companions;
 alter table public.rsvps drop constraint if exists rsvps_party_size_check;
 alter table public.rsvps drop constraint if exists rsvps_family_check;
 alter table public.rsvps add constraint rsvps_family_check check (public.valid_wedding_party(response, spouse_coming, spouse_name, children, children_consent, party_size)) not valid;
+alter table public.rsvps drop constraint if exists rsvps_phone_check;
+alter table public.rsvps add constraint rsvps_phone_check check (phone is not null and phone ~ '^[1-9][0-9]9[0-9]{8}$') not valid;
 alter table public.rsvps drop constraint if exists rsvps_privacy_consent_check;
-alter table public.rsvps add constraint rsvps_privacy_consent_check check (privacy_consent and privacy_notice_version = '2026-11-v1' and privacy_consent_at is not null) not valid;
+alter table public.rsvps add constraint rsvps_privacy_consent_check check (privacy_consent and privacy_notice_version = '2026-11-v2' and privacy_consent_at is not null) not valid;
 alter table public.rsvps drop constraint if exists rsvps_children_consent_check;
 alter table public.rsvps add constraint rsvps_children_consent_check check (children_consent = (children_consent_at is not null)) not valid;
 
@@ -115,7 +118,8 @@ drop function if exists public.valid_wedding_party(text, boolean, text, jsonb, i
 drop policy if exists "Public can submit RSVP" on public.rsvps;
 create policy "Public can submit RSVP" on public.rsvps for insert to anon, authenticated
 with check (trim(full_name) ~ '^[^[:space:]]+[[:space:]]+[^[:space:]]+' and char_length(trim(full_name)) <= 150 and response in ('yes','maybe','no')
-  and privacy_consent and privacy_notice_version = '2026-11-v1'
+  and phone is not null and phone ~ '^[1-9][0-9]9[0-9]{8}$'
+  and privacy_consent and privacy_notice_version = '2026-11-v2'
   and public.valid_wedding_party(response, spouse_coming, spouse_name, children, children_consent, party_size)
   and (message is null or char_length(message) <= 500));
 drop policy if exists "Admins can read RSVPs" on public.rsvps;
@@ -123,7 +127,7 @@ create policy "Admins can read RSVPs" on public.rsvps for select to authenticate
 drop policy if exists "Admins can update RSVPs" on public.rsvps;
 drop policy if exists "Admins can delete RSVPs" on public.rsvps;
 revoke insert (message) on public.rsvps from anon, authenticated;
-grant insert (full_name, response, spouse_coming, spouse_name, children, party_size, privacy_consent, privacy_notice_version, children_consent) on public.rsvps to anon, authenticated;
+grant insert (full_name, phone, response, spouse_coming, spouse_name, children, party_size, privacy_consent, privacy_notice_version, children_consent) on public.rsvps to anon, authenticated;
 grant select on public.rsvps to authenticated;
 
 -- Apenas estas contas autenticadas podem consultar as confirmações.

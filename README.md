@@ -12,6 +12,7 @@ Convite estático em HTML, CSS e JavaScript. O envio de respostas usa Supabase q
 - `supabase-config.js`: URL e chave publicável compartilhadas pelo site e painel.
 - `admin.html`, `admin.css`, `admin.js`: painel privado, busca, filtros e CSV.
 - `supabase-schema.sql`: esquema, políticas de acesso, registro de consentimento e retenção.
+- `supabase/migrations/20261103040000_rsvp_mobile_phone.sql`: adiciona o celular obrigatório e exige o aviso de privacidade v2 nas novas respostas.
 
 ## Referência visual e vídeo
 
@@ -21,13 +22,13 @@ O vídeo atual é `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4` (MP4/H.264,
 
 ## Supabase — configuração necessária
 
-URL e chave publicável do projeto já estão preenchidas em `supabase-config.js`. O convite é público; somente as contas do casal podem consultar as respostas. A migration `supabase/migrations/20261103024500_lgpd_rsvp_privacy.sql` registra consentimentos e reforça as políticas:
+URL e chave publicável do projeto já estão preenchidas em `supabase-config.js`. O convite é público; somente as contas do casal podem consultar as respostas. As migrations em `supabase/migrations/` registram consentimentos, validam o celular e reforçam as políticas:
 
 1. A integração Supabase/GitHub deve acompanhar a raiz (`.`) e aplicar migrations na branch de produção `main`. Se ela não executar a nova migration, cole o conteúdo atualizado de `supabase-schema.sql` no SQL Editor. Não digite o nome do arquivo no editor.
 2. Crie/convide as duas contas em **Authentication → Users** com os e-mails cadastrados na migration.
 3. Nunca use `service_role` ou chave `secret` no navegador; `supabase-config.js` contém somente a chave publicável.
 
-O formulário grava somente nomes completos, resposta, presença e nome do cônjuge, nomes e idades dos filhos, versão do aviso e os consentimentos com data. Não oferece acompanhantes extras e não coleta mensagens livres. Para menores de 18 anos, exige a declaração e autorização de pai, mãe ou responsável legal. Convidados podem inserir respostas válidas; somente sessões autenticadas cujo e-mail conste em `admin_emails` podem consultar confirmações. O banco agenda a exclusão das respostas a partir de 28/06/2027, 30 dias após o evento. Não abra as permissões do banco nem habilite consulta pública.
+O formulário grava nome completo, celular brasileiro com DDD, resposta, presença e nome do cônjuge, nomes e idades dos filhos, versão do aviso e consentimentos com data. O celular é usado somente para contato sobre o convite e a organização do evento. Não oferece acompanhantes extras e não coleta mensagens livres. Para menores de 18 anos, exige a declaração e autorização de pai, mãe ou responsável legal. Convidados podem inserir respostas válidas; somente sessões autenticadas cujo e-mail conste em `admin_emails` podem consultar confirmações. O banco agenda a exclusão das respostas a partir de 28/06/2027, 30 dias após o evento. Não abra as permissões do banco nem habilite consulta pública.
 
 ## Executar localmente
 
