@@ -17,7 +17,7 @@ Convite estático em HTML, CSS e JavaScript. O envio de respostas usa Supabase q
 
 A imagem de referência está em `assets/Save the Date_ Nosso Café Para Sempre.png`. O convite segue a composição vertical dela com papel creme quente, ramos e frutos nos cantos, grãos como ornamento, título em Lobster Two, conteúdo em Barlow Condensed, vídeo horizontal amplo e botões arredondados. O vídeo não usa thumbnail; ele abre com os controles nativos do navegador.
 
-O vídeo atual é `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4` (MP4/H.264). Para trocá-lo, substitua esse arquivo mantendo o nome, ou coloque o novo MP4 em `assets/` e edite o atributo `src` do `<source>` em `index.html`.
+O vídeo atual é `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4` (MP4/H.264, 720 × 1280, 30 fps, cerca de 6,7 MB). O player começa a pré-carregar o arquivo antes da reprodução para reduzir travamentos em hospedagens que não oferecem streaming por intervalos. Para trocá-lo, substitua esse arquivo mantendo o nome, ou coloque o novo MP4 em `assets/` e edite o atributo `src` do `<source>` em `index.html`.
 
 ## Supabase — configuração necessária
 

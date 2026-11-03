@@ -210,11 +210,24 @@ form.addEventListener("submit", async event => {
 
 const video = document.querySelector(".couple-video");
 const videoHelp = document.querySelector("#video-help");
+video.addEventListener("progress", () => {
+  if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) return;
+  const buffered = video.buffered.length ? video.buffered.end(video.buffered.length - 1) : 0;
+  const percent = video.duration ? Math.min(100, Math.round(buffered / video.duration * 100)) : 0;
+  videoHelp.textContent = percent ? `Preparando o vídeo para reprodução… ${percent}%` : "Preparando o vídeo para reprodução…";
+  videoHelp.hidden = false;
+});
 video.addEventListener("error", () => {
   videoHelp.textContent = "Não foi possível carregar o vídeo. Confira o arquivo MP4 e o caminho no index.html.";
   videoHelp.hidden = false;
 });
-video.addEventListener("loadedmetadata", () => { videoHelp.hidden = true; });
+video.addEventListener("loadedmetadata", () => {
+  if (video.readyState < HTMLMediaElement.HAVE_ENOUGH_DATA) {
+    videoHelp.textContent = "Preparando o vídeo para reprodução…";
+    videoHelp.hidden = false;
+  }
+});
+video.addEventListener("canplaythrough", () => { videoHelp.hidden = true; });
 video.addEventListener("waiting", () => {
   videoHelp.textContent = "Carregando o vídeo…";
   videoHelp.hidden = false;

@@ -23,12 +23,13 @@
     <section class="video-section" aria-label="Vídeo do casal">
       <!-- Vídeo atual em assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4; troque o arquivo ou edite o src abaixo. -->
       <div class="video-frame">
-        <video class="couple-video" controls playsinline preload="metadata">
+        <video class="couple-video" controls playsinline preload="auto">
           <source src="assets/WhatsApp%20Video%202026-11-02%20at%2020.40.58.mp4" type="video/mp4">
           Seu navegador não consegue reproduzir este vídeo.
         </video>
       </div>
-      <p class="video-help" id="video-help">Vídeo atual: <code>assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4</code>. Para trocar o arquivo, substitua-o ou altere o caminho no <code>src</code> em <code>index.html</code>.</p>
+      <p class="video-help" id="video-help" role="status" aria-live="polite" hidden></p>
+      <p class="video-file-note">Vídeo: <code>assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4</code>. Para substituí-lo, coloque o novo arquivo em <code>assets/</code> e atualize <code>data-src</code> neste vídeo em <code>index.html</code>.</p>
     </section>
 
     <section class="rsvp-intro">
