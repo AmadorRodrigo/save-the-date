@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8e9db">
+  <title>Save our Date</title>
+  <meta name="description" content="Nossa história, nosso café, nosso para sempre.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="invitation">
+    <header class="site-header">
+      <p class="monogram">nossa história, nosso café, nosso para sempre</p>
+      <div class="ornament" aria-hidden="true"><span></span><i></i><span></span></div>
+      <h1>Save our Date</h1>
+      <p class="eyebrow">UM DIA PARA GUARDAR NA MEMÓRIA</p>
+    </header>
+
+    <section class="video-section" aria-label="Vídeo do casal">
+      <!-- Vídeo atual em assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4; troque o arquivo ou edite o src abaixo. -->
+      <div class="video-frame">
+        <video class="couple-video" controls playsinline preload="metadata">
+          <source src="assets/WhatsApp%20Video%202026-11-02%20at%2020.40.58.mp4" type="video/mp4">
+          Seu navegador não consegue reproduzir este vídeo.
+        </video>
+      </div>
+      <p class="video-help" id="video-help">Vídeo atual: <code>assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4</code>. Para trocar o arquivo, substitua-o ou altere o caminho no <code>src</code> em <code>index.html</code>.</p>
+    </section>
+
+    <section class="rsvp-intro">
+      <div class="ornament" aria-hidden="true"><span></span><i></i><span></span></div>
+      <p class="eyebrow">A DATA ESTÁ MARCADA</p>
+      <p class="date">28 <span>·</span> 05 <span>·</span> 2027</p>
+      <p class="question">Você poderá celebrar esse momento conosco?</p>
+    </section>
+
+    <section class="choices" aria-label="Confirmação de presença">
+      <button class="choice choice-yes" data-response="yes">Sim, vou!</button>
+      <button class="choice choice-no" data-response="no">Não poderei ir</button>
+      <button class="choice choice-maybe" data-response="maybe">Ainda não sei</button>
+    </section>
+
+    <footer class="site-footer">
+      <div class="ornament" aria-hidden="true"><span></span><i></i><span></span></div>
+      <p>Será ainda mais especial com você.</p>
+    </footer>
+  </main>
+
+  <dialog id="rsvp-dialog" class="rsvp-dialog">
+    <form id="rsvp-form" method="dialog">
+      <button type="button" class="dialog-close" aria-label="Fechar">×</button>
+      <p class="monogram dialog-monogram">nossa história, nosso café, nosso para sempre</p>
+      <h2 id="form-title">Confirme sua presença</h2>
+      <p class="form-description" id="form-description">Preencha seus dados e os das pessoas que irão com você.</p>
+
+      <div class="field">
+        <label for="full-name">Seu nome completo *</label>
+        <input id="full-name" name="full_name" autocomplete="name" required maxlength="150">
+      </div>
+      <div id="attendee-section">
+        <fieldset class="family-card">
+          <legend>Seu cônjuge</legend>
+          <label class="checkbox-field"><input id="spouse-coming" type="checkbox"> <span>Meu cônjuge irá comigo</span></label>
+          <div class="field" id="spouse-name-field" hidden>
+            <label for="spouse-name">Nome completo do cônjuge *</label>
+            <input id="spouse-name" maxlength="150" autocomplete="off">
+          </div>
+        </fieldset>
+        <fieldset class="family-card">
+          <legend>Seus filhos</legend>
+          <p class="form-note">Adicione somente seus filhos que irão à celebração.</p>
+          <div id="children-list" class="children-list"></div>
+          <button type="button" id="add-child" class="add-child">+ Adicionar filho</button>
+        </fieldset>
+      </div>
+
+      <div class="field">
+        <label for="message">Observação (opcional)</label>
+        <textarea id="message" name="message" rows="3" maxlength="500" placeholder="Se precisar, deixe uma observação."></textarea>
+      </div>
+      <p class="form-error" id="form-error" role="alert"></p>
+      <button class="submit-button" id="submit-button" type="submit">Enviar resposta</button>
+      <p class="privacy-note">Seus dados serão usados apenas para organizar as confirmações do casamento.</p>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administração — Save the Date</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Lobster+Two:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <p class="monogram">nossa história, nosso café, nosso para sempre</p>
+      <h1>Painel de convidados</h1>
+      <p>Área privada do casal</p>
+    </header>
+
+    <section id="login-panel" class="admin-panel">
+      <h2>Acesso administrativo</h2>
+      <form id="login-form">
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">Senha</label>
+          <input id="password" type="password" autocomplete="current-password" required>
+        </div>
+        <p class="form-error" id="login-error" role="alert"></p>
+        <button class="submit-button" type="submit">Entrar</button>
+      </form>
+      <p class="privacy-note">Somente os e-mails autorizados no Supabase podem acessar os registros.</p>
+    </section>
+
+    <section id="dashboard" hidden>
+      <div class="dashboard-top">
+        <div>
+          <h2>Confirmações</h2>
+          <p id="summary">Carregando...</p>
+        </div>
+        <button id="logout-button" class="admin-secondary">Sair</button>
+      </div>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Buscar convidado ou familiares">
+        <select id="filter">
+          <option value="all">Todas as respostas</option>
+          <option value="yes">Confirmados</option>
+          <option value="maybe">Ainda não sabem</option>
+          <option value="no">Não poderão ir</option>
+        </select>
+        <button id="export-button" class="admin-secondary">Exportar CSV</button>
+      </div>
+      <p id="dashboard-error" class="form-error" role="alert"></p>
+      <div id="records" class="records"></div>
+    </section>
+  </main>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

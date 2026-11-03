@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 420" fill="none">
+  <g stroke="#735034" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".86">
+    <path d="M24 394C78 321 80 258 107 198c24-54 47-108 109-168"/>
+    <path d="M102 209c13-17 24-26 42-29" stroke-width="4"/>
+    <g stroke="#6f3728" stroke-width="1.4">
+      <circle cx="105" cy="192" r="13" fill="#8f3828"/>
+      <circle cx="126" cy="184" r="12" fill="#9c4029"/>
+      <circle cx="141" cy="200" r="12" fill="#843326"/>
+      <circle cx="120" cy="207" r="13" fill="#a3462c"/>
+      <circle cx="99" cy="214" r="11" fill="#953a27"/>
+      <circle cx="138" cy="174" r="10" fill="#8e3828"/>
+      <path d="M99 189c4-3 8-4 12-3M120 181c3-3 6-3 9-2M113 200c3-2 6-2 9-1" stroke="#d17b50" stroke-linecap="round" stroke-width="2"/>
+    </g>
+    <path d="M79 302c-39-8-62-35-65-69 36 3 61 24 65 69Z" fill="#87906c" fill-opacity=".33"/>
+    <path d="M92 258c-6-39 9-69 40-84 10 35-3 66-40 84Z" fill="#87906c" fill-opacity=".3"/>
+    <path d="M111 208c-38-13-57-40-55-75 35 8 57 33 55 75Z" fill="#87906c" fill-opacity=".3"/>
+    <path d="M139 159c1-40 23-65 57-72 1 37-18 65-57 72Z" fill="#87906c" fill-opacity=".3"/>
+    <path d="M161 111c-31-22-42-53-31-86 31 17 46 46 31 86Z" fill="#87906c" fill-opacity=".3"/>
+    <path d="M87 281 23 235M102 235l36-49M117 200l-57-48M144 151l48-48M160 116l-25-68"/>
+    <path d="M103 319c-23-10-31-32-19-52 24 1 38 20 32 43-3 5-7 8-13 9Z" fill="#9a5738"/>
+    <path d="M104 314c-3-14-1-29 10-41"/>
+    <path d="M173 91c-23-10-31-32-19-52 24 1 38 20 32 43-3 5-7 8-13 9Z" fill="#9a5738"/>
+    <path d="M174 86c-3-14-1-29 10-41"/>
+    <ellipse cx="70" cy="350" rx="13" ry="8" transform="rotate(-42 70 350)" fill="#6b452d" fill-opacity=".82" stroke-width="2"/>
+    <path d="M61 359c7-8 13-14 19-18" stroke="#e0c3a0" stroke-width="1.5"/>
+    <ellipse cx="143" cy="280" rx="12" ry="7" transform="rotate(-42 143 280)" fill="#6b452d" fill-opacity=".82" stroke-width="2"/>
+    <path d="M135 288c6-7 12-12 17-16" stroke="#e0c3a0" stroke-width="1.5"/>
+  </g>
+</svg>
