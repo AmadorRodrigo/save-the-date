@@ -7,6 +7,7 @@ Convite estático em HTML, CSS e JavaScript. O envio de respostas usa Supabase q
 - `index.html`, `styles.css`, `app.js`: convite, estilos responsivos e formulário.
 - `privacidade.html`: aviso de privacidade acessível antes do envio da resposta.
 - `assets/coffee-branch.svg`: ramo vetorial de café feito para a composição.
+- `assets/Logo_Casal.jpeg`: identidade visual usada também como favicon das páginas.
 - `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4`: vídeo atualmente em destaque.
 - `assets/Save the Date_ Nosso Café Para Sempre.png`: imagem de referência e pôster do vídeo.
 - `supabase-config.js`: URL e chave publicável compartilhadas pelo site e painel.
