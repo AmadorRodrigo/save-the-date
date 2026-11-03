@@ -20,12 +20,11 @@ O vídeo atual é `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4` (MP4/H.264)
 
 ## Supabase — configuração necessária
 
-Não há URL, chave publicável nem e-mails autorizados configurados neste projeto. Para ativar o envio online e o painel:
+URL e chave publicável do projeto já estão preenchidas em `supabase-config.js`. Para ativar o envio online e liberar o painel somente para o casal:
 
-1. Crie/abra o projeto Supabase e copie **Project URL** e a chave **publishable** (ou `anon` legada). Nunca use `service_role` ou chave secreta no navegador.
-2. No `supabase-schema.sql`, substitua `SEU_EMAIL_AQUI` e `EMAIL_DO_CONJUGE_AQUI` pelos dois e-mails exatos usados nas contas do casal. Execute o SQL no SQL Editor. O script remove os campos genéricos antigos (`phone`, `companions`) e aplica a regra familiar nova; faça backup se a tabela já tiver respostas importantes. A constraint para nomes completos é adicionada `not valid` para não bloquear registros legados, mas passa a validar todas as novas respostas.
-3. Crie/convide as duas contas em **Authentication → Users** com os mesmos e-mails cadastrados no SQL.
-4. Preencha `SUPABASE_URL` e `SUPABASE_ANON_KEY` em `supabase-config.js`.
+1. O arquivo `supabase/migrations/20261102000000_wedding_rsvp.sql` contém o esquema, as políticas RLS e os dois e-mails autorizados. A integração do Supabase com GitHub precisa ter **Deploy to production** habilitado para aplicar migrations quando a branch de produção receber este arquivo. `supabase-schema.sql` é a cópia para aplicação manual no SQL Editor; não aplique os dois fluxos depois que a migration já tiver sido executada. O script remove campos antigos (`phone`, `companions`); faça backup se houver respostas importantes.
+2. Crie/convide as duas contas em **Authentication → Users** com os mesmos e-mails cadastrados na migration.
+3. A URL e a chave publicável já estão em `supabase-config.js`. Nunca use `service_role` ou chave secreta no navegador.
 
 O formulário grava apenas nome da pessoa convidada, resposta, cônjuge opcional, filhos com nome e idade e observação opcional. Não oferece acompanhantes extras nem coleta telefone. Respostas públicas permitem apenas inserção. Somente sessões autenticadas cujo e-mail conste em `admin_emails` podem consultar confirmações; o painel é somente leitura. A constraint e a política RLS limitam cada RSVP à pessoa convidada, cônjuge e até 20 filhos. Não abra as permissões do banco nem habilite consulta pública.
 
@@ -40,4 +39,4 @@ python3 preview_server.py
 
 Abra `http://127.0.0.1:8000` para o convite e `http://127.0.0.1:8000/admin.html` para o painel. O servidor local aceita solicitações de intervalos de bytes para reprodução e busca no vídeo. Ele escuta apenas em `127.0.0.1`. Para parar, use `Ctrl+C` no terminal.
 
-Antes de configurar o Supabase, a página pode ser visualizada localmente; o envio online e o painel exigem URL, chave publicável, SQL aplicado e contas autorizadas. Nenhum deploy ou publicação foi feito.
+O envio online e o painel exigem que o SQL tenha sido aplicado e que as duas contas autorizadas existam. Nenhum deploy ou publicação foi feito.

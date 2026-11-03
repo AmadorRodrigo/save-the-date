@@ -91,6 +91,6 @@ drop policy if exists "Admins can delete RSVPs" on public.rsvps;
 grant insert (full_name, response, spouse_coming, spouse_name, children, party_size, message) on public.rsvps to anon, authenticated;
 grant select on public.rsvps to authenticated;
 
--- Cadastre os dois e-mails autorizados antes de executar; remova as linhas de exemplo.
-insert into public.admin_emails (email) values ('SEU_EMAIL_AQUI'), ('EMAIL_DO_CONJUGE_AQUI')
+-- Apenas estas contas autenticadas podem consultar as confirmações.
+insert into public.admin_emails (email) values ('rodrigobarista.amador@gmail.com'), ('vicgarrido10@gmail.com')
 on conflict (email) do nothing;
