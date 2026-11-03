@@ -14,6 +14,7 @@ Convite estático em HTML, CSS e JavaScript. O envio de respostas usa Supabase q
 - `admin.html`, `admin.css`, `admin.js`: painel privado, busca, filtros e CSV.
 - `supabase-schema.sql`: esquema, políticas de acesso, registro de consentimento e retenção.
 - `supabase/migrations/20261103040000_rsvp_mobile_phone.sql`: adiciona o celular obrigatório e exige o aviso de privacidade v2 nas novas respostas.
+- `supabase/migrations/20261103050000_rsvp_international_phone.sql`: aceita números internacionais de 7 a 15 dígitos.
 
 ## Referência visual e vídeo
 
@@ -29,7 +30,7 @@ URL e chave publicável do projeto já estão preenchidas em `supabase-config.js
 2. Crie/convide as duas contas em **Authentication → Users** com os e-mails cadastrados na migration.
 3. Nunca use `service_role` ou chave `secret` no navegador; `supabase-config.js` contém somente a chave publicável.
 
-O formulário grava nome completo, celular brasileiro com DDD, resposta, presença e nome do cônjuge, nomes e idades dos filhos, versão do aviso e consentimentos com data. O celular é usado somente para contato sobre o convite e a organização do evento. Não oferece acompanhantes extras e não coleta mensagens livres. Para menores de 18 anos, exige a declaração e autorização de pai, mãe ou responsável legal. Convidados podem inserir respostas válidas; somente sessões autenticadas cujo e-mail conste em `admin_emails` podem consultar confirmações. O banco agenda a exclusão das respostas a partir de 28/06/2027, 30 dias após o evento. Não abra as permissões do banco nem habilite consulta pública.
+O formulário grava nome completo, celular em formato internacional ou local (até 15 dígitos), resposta, presença e nome do cônjuge, nomes e idades dos filhos, versão do aviso e consentimentos com data. O celular é usado somente para contato sobre o convite e a organização do evento. Não oferece acompanhantes extras e não coleta mensagens livres. Para menores de 18 anos, exige a declaração e autorização de pai, mãe ou responsável legal. Convidados podem inserir respostas válidas; somente sessões autenticadas cujo e-mail conste em `admin_emails` podem consultar confirmações. O banco agenda a exclusão das respostas a partir de 28/06/2027, 30 dias após o evento. Não abra as permissões do banco nem habilite consulta pública.
 
 ## Executar localmente
 

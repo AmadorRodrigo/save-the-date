@@ -95,13 +95,14 @@ function isFullName(value) {
   return value.trim().split(/\s+/u).filter(Boolean).length >= 2;
 }
 
-function normalizeBrazilianMobile(value) {
-  const digits = String(value).replace(/\D/g, "");
-  return digits.length === 13 && digits.startsWith("55") ? digits.slice(2) : digits;
+function normalizePhoneNumber(value) {
+  const input = String(value).trim();
+  const digits = input.replace(/\D/g, "");
+  return `${input.startsWith("+") ? "+" : ""}${digits}`;
 }
 
-function isBrazilianMobile(value) {
-  return /^[1-9]\d9\d{8}$/.test(value);
+function isValidPhoneNumber(value) {
+  return /^\+?\d{7,15}$/.test(value);
 }
 
 document.querySelector("#add-child").addEventListener("click", addChild);
@@ -150,13 +151,13 @@ form.addEventListener("submit", async event => {
   errorBox.textContent = "";
   const fullName = document.querySelector("#full-name").value.trim();
   const phoneInput = document.querySelector("#phone");
-  const phone = normalizeBrazilianMobile(phoneInput.value);
+  const phone = normalizePhoneNumber(phoneInput.value);
   if (!isFullName(fullName)) {
     errorBox.textContent = "Informe seu nome completo.";
     return;
   }
-  if (!isBrazilianMobile(phone)) {
-    errorBox.textContent = "Informe um celular brasileiro válido com DDD (ex.: (11) 99999-9999).";
+  if (!isValidPhoneNumber(phone)) {
+    errorBox.textContent = "Informe um número com até 15 dígitos, incluindo o código de área.";
     phoneInput.focus();
     return;
   }

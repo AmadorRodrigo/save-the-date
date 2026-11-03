@@ -51,7 +51,7 @@ revoke all on function public.valid_wedding_party(text, boolean, text, jsonb, bo
 create table if not exists public.rsvps (
   id uuid primary key default gen_random_uuid(),
   full_name text not null check (char_length(trim(full_name)) <= 150 and trim(full_name) ~ '^[^[:space:]]+[[:space:]]+[^[:space:]]+'),
-  phone text not null check (phone ~ '^[1-9][0-9]9[0-9]{8}$'),
+  phone text not null check (phone ~ '^\+?[0-9]{7,15}$'),
   response text not null check (response in ('yes', 'maybe', 'no')),
   spouse_coming boolean not null default false,
   spouse_name text,
@@ -86,7 +86,7 @@ alter table public.rsvps drop constraint if exists rsvps_party_size_check;
 alter table public.rsvps drop constraint if exists rsvps_family_check;
 alter table public.rsvps add constraint rsvps_family_check check (public.valid_wedding_party(response, spouse_coming, spouse_name, children, children_consent, party_size)) not valid;
 alter table public.rsvps drop constraint if exists rsvps_phone_check;
-alter table public.rsvps add constraint rsvps_phone_check check (phone is not null and phone ~ '^[1-9][0-9]9[0-9]{8}$') not valid;
+alter table public.rsvps add constraint rsvps_phone_check check (phone is not null and phone ~ '^\+?[0-9]{7,15}$') not valid;
 alter table public.rsvps drop constraint if exists rsvps_privacy_consent_check;
 alter table public.rsvps add constraint rsvps_privacy_consent_check check (privacy_consent and privacy_notice_version = '2026-11-v2' and privacy_consent_at is not null) not valid;
 alter table public.rsvps drop constraint if exists rsvps_children_consent_check;
@@ -118,7 +118,7 @@ drop function if exists public.valid_wedding_party(text, boolean, text, jsonb, i
 drop policy if exists "Public can submit RSVP" on public.rsvps;
 create policy "Public can submit RSVP" on public.rsvps for insert to anon, authenticated
 with check (trim(full_name) ~ '^[^[:space:]]+[[:space:]]+[^[:space:]]+' and char_length(trim(full_name)) <= 150 and response in ('yes','maybe','no')
-  and phone is not null and phone ~ '^[1-9][0-9]9[0-9]{8}$'
+  and phone is not null and phone ~ '^\+?[0-9]{7,15}$'
   and privacy_consent and privacy_notice_version = '2026-11-v2'
   and public.valid_wedding_party(response, spouse_coming, spouse_name, children, children_consent, party_size)
   and (message is null or char_length(message) <= 500));

@@ -74,14 +74,14 @@ function renderRecords() {
   summary.textContent = `${confirmed.length} grupo(s) confirmado(s) · ${totalPeople} pessoa(s) confirmada(s) · ${allRecords.length} resposta(s) no total`;
   if (!rows.length) { recordsEl.innerHTML = '<div class="empty-state">Nenhuma resposta encontrada.</div>'; return; }
   recordsEl.innerHTML = rows.map(row => {
-    const phone = String(row.phone || "").replace(/\D/g, "");
-    const phoneDisplay = phone.length === 11 ? `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}` : "Não informado";
+    const phone = String(row.phone || "");
+    const phoneDisplay = phone || "Não informado";
     const people = [
       ...(row.spouse_coming && row.spouse_name ? [`Cônjuge: ${escapeHtml(row.spouse_name)}`] : []),
       ...(row.children || []).map(child => `Filho(a): ${escapeHtml(child.name)} — ${escapeHtml(child.age)} anos`)
     ];
     const consentDetails = `Consentimento: ${row.privacy_consent ? `sim, ${dateFormat(row.privacy_consent_at)}` : "não registrado"}${row.children_consent ? ` · Responsável por menores: sim, ${dateFormat(row.children_consent_at)}` : ""}`;
-    return `<article class="record"><div class="record-head"><div><h3>${escapeHtml(row.full_name)}</h3><p class="record-meta">Celular: ${phone ? `<a href="tel:${phone}">${escapeHtml(phoneDisplay)}</a>` : phoneDisplay}</p></div><span class="status ${escapeHtml(row.response)}">${statusLabels[row.response] || "Resposta"}</span></div>
+    return `<article class="record"><div class="record-head"><div><h3>${escapeHtml(row.full_name)}</h3><p class="record-meta">Celular: ${phone ? `<a href="tel:${escapeHtml(phone)}">${escapeHtml(phoneDisplay)}</a>` : phoneDisplay}</p></div><span class="status ${escapeHtml(row.response)}">${statusLabels[row.response] || "Resposta"}</span></div>
       <p class="record-meta">Recebido em ${dateFormat(row.created_at)}${row.party_size ? ` · Grupo de ${row.party_size} pessoa(s)` : ""}</p>
       ${people.length ? `<ul class="companion-list">${people.map(person => `<li>${person}</li>`).join("")}</ul>` : "<p class=\"record-meta\">Sem cônjuge ou filhos informados.</p>"}
       <p class="record-meta">${escapeHtml(consentDetails)}${row.privacy_notice_version ? ` · Aviso ${escapeHtml(row.privacy_notice_version)}` : ""}</p>
