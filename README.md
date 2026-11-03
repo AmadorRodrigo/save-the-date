@@ -39,4 +39,8 @@ python3 preview_server.py
 
 Abra `http://127.0.0.1:8000` para o convite e `http://127.0.0.1:8000/admin.html` para o painel. O servidor local aceita solicitações de intervalos de bytes para reprodução e busca no vídeo. Ele escuta apenas em `127.0.0.1`. Para parar, use `Ctrl+C` no terminal.
 
-O envio online e o painel exigem que o SQL tenha sido aplicado e que as duas contas autorizadas existam. Nenhum deploy ou publicação foi feito.
+O envio online e o painel exigem que o SQL tenha sido aplicado e que as duas contas autorizadas existam.
+
+## Publicação
+
+`dist/` é gerado para o pacote estático e ignorado pelo Git. O manifesto está configurado para hospedagem privada; não altere a audiência para acesso público.
