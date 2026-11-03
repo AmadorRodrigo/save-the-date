@@ -43,4 +43,4 @@ O envio online e o painel exigem que o SQL tenha sido aplicado e que as duas con
 
 ## Publicação
 
-`dist/` é gerado para o pacote estático e ignorado pelo Git. O manifesto está configurado para hospedagem privada; não altere a audiência para acesso público.
+`dist/` é gerado para o pacote estático e ignorado pelo Git. O convite é público para que os convidados abram o link sem login no ChatGPT. O painel (`admin.html`) exige autenticação Supabase, e as políticas RLS autorizam consultas somente às duas contas do casal.
