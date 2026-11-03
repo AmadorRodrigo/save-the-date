@@ -1,0 +1,9 @@
+# Identificador local usado pela Supabase CLI neste repositório.
+project_id = "save-the-date"
+
+[db.migrations]
+enabled = true
+schema_paths = []
+
+[db.seed]
+enabled = false

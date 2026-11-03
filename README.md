@@ -22,7 +22,7 @@ O vídeo atual é `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4` (MP4/H.264)
 
 URL e chave publicável do projeto já estão preenchidas em `supabase-config.js`. Para ativar o envio online e liberar o painel somente para o casal:
 
-1. O arquivo `supabase/migrations/20261102000000_wedding_rsvp.sql` contém o esquema, as políticas RLS e os dois e-mails autorizados. A integração do Supabase com GitHub precisa ter **Deploy to production** habilitado para aplicar migrations quando a branch de produção receber este arquivo. `supabase-schema.sql` é a cópia para aplicação manual no SQL Editor; não aplique os dois fluxos depois que a migration já tiver sido executada. O script remove campos antigos (`phone`, `companions`); faça backup se houver respostas importantes.
+1. `supabase/config.toml` e `supabase/migrations/20261102000000_wedding_rsvp.sql` configuram e definem o esquema, as políticas RLS e os dois e-mails autorizados. Na integração Supabase/GitHub, use a raiz do repositório (`.`) como working directory e habilite **Deploy to production** para aplicar migrations na branch de produção. `supabase-schema.sql` é a cópia para aplicação manual no SQL Editor; não aplique os dois fluxos depois que a migration já tiver sido executada. O script remove campos antigos (`phone`, `companions`); faça backup se houver respostas importantes.
 2. Crie/convide as duas contas em **Authentication → Users** com os mesmos e-mails cadastrados na migration.
 3. A URL e a chave publicável já estão em `supabase-config.js`. Nunca use `service_role` ou chave secreta no navegador.
 
