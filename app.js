@@ -9,6 +9,9 @@ const toast = document.querySelector("#toast");
 const childrenList = document.querySelector("#children-list");
 const spouseComing = document.querySelector("#spouse-coming");
 const spouseName = document.querySelector("#spouse-name");
+const privacyConsent = document.querySelector("#privacy-consent");
+const childrenConsent = document.querySelector("#children-consent");
+const childrenConsentField = document.querySelector("#children-consent-field");
 let selectedResponse = "yes";
 
 function showToast(message) {
@@ -56,14 +59,24 @@ function addChild() {
   ageLabel.htmlFor = age.id;
   ageLabel.textContent = "Idade *";
   ageField.append(ageLabel, age);
+  age.addEventListener("input", updateChildrenConsent);
   fields.append(nameField, ageField);
   const remove = document.createElement("button");
   remove.type = "button";
   remove.className = "remove-child";
   remove.textContent = "Remover filho";
-  remove.addEventListener("click", () => { card.remove(); renumberChildren(); });
+  remove.addEventListener("click", () => { card.remove(); renumberChildren(); updateChildrenConsent(); });
   card.append(legend, fields, remove);
   childrenList.append(card);
+  updateChildrenConsent();
+}
+
+function updateChildrenConsent() {
+  const hasMinor = [...childrenList.querySelectorAll('input[type="number"]')]
+    .some(input => input.value !== "" && Number(input.value) < 18);
+  childrenConsentField.hidden = !hasMinor;
+  childrenConsent.required = hasMinor;
+  if (!hasMinor) childrenConsent.checked = false;
 }
 
 function renumberChildren() {
@@ -93,6 +106,7 @@ function openForm(response) {
   selectedResponse = response;
   form.reset();
   childrenList.replaceChildren();
+  updateChildrenConsent();
   document.querySelector("#spouse-name-field").hidden = true;
   spouseName.required = false;
   errorBox.textContent = "";
@@ -130,6 +144,10 @@ form.addEventListener("submit", async event => {
     errorBox.textContent = "Informe seu nome completo.";
     return;
   }
+  if (!privacyConsent.checked) {
+    errorBox.textContent = "Leia o aviso de privacidade e marque a autorização para continuar.";
+    return;
+  }
   let spouse = null;
   let children = [];
   if (selectedResponse === "yes") {
@@ -145,6 +163,10 @@ form.addEventListener("submit", async event => {
       errorBox.textContent = "Informe o nome completo e uma idade válida (0 a 120) para cada filho.";
       return;
     }
+    if (children.some(child => child.age < 18) && !childrenConsent.checked) {
+      errorBox.textContent = "Para informar menores de 18 anos, confirme que você é responsável legal e autorizou o uso desses dados.";
+      return;
+    }
   }
   submitButton.disabled = true;
   submitButton.textContent = "Enviando...";
@@ -154,8 +176,10 @@ form.addEventListener("submit", async event => {
     spouse_coming: selectedResponse === "yes" && spouse !== null,
     spouse_name: selectedResponse === "yes" ? spouse : null,
     children: selectedResponse === "yes" ? children : [],
+    privacy_consent: privacyConsent.checked,
+    privacy_notice_version: "2026-11-v1",
+    children_consent: selectedResponse === "yes" && children.some(child => child.age < 18) && childrenConsent.checked,
     party_size: selectedResponse === "yes" ? 1 + (spouse ? 1 : 0) + children.length : null,
-    message: document.querySelector("#message").value.trim() || null
   };
   if (!supabaseConfigured) {
     errorBox.textContent = "O Supabase ainda não foi configurado. Sua resposta não foi salva. Siga o passo a passo no README.md.";

@@ -52,7 +52,7 @@ document.querySelector("#export-button").addEventListener("click", exportCsv);
 
 async function loadRecords() {
   dashboardError.textContent = "";
-  const { data, error } = await supabase.from("rsvps").select("id,full_name,response,spouse_coming,spouse_name,children,party_size,message,created_at").order("created_at", { ascending: false });
+  const { data, error } = await supabase.from("rsvps").select("id,full_name,response,spouse_coming,spouse_name,children,party_size,message,privacy_consent,privacy_consent_at,privacy_notice_version,children_consent,children_consent_at,created_at").order("created_at", { ascending: false });
   if (error) { dashboardError.textContent = "Não foi possível carregar registros. Verifique a autorização administrativa e as políticas RLS."; return; }
   allRecords = data || [];
   loginPanel.hidden = true;
@@ -76,15 +76,17 @@ function renderRecords() {
       ...(row.spouse_coming && row.spouse_name ? [`Cônjuge: ${escapeHtml(row.spouse_name)}`] : []),
       ...(row.children || []).map(child => `Filho(a): ${escapeHtml(child.name)} — ${escapeHtml(child.age)} anos`)
     ];
+    const consentDetails = `Consentimento: ${row.privacy_consent ? `sim, ${dateFormat(row.privacy_consent_at)}` : "não registrado"}${row.children_consent ? ` · Responsável por menores: sim, ${dateFormat(row.children_consent_at)}` : ""}`;
     return `<article class="record"><div class="record-head"><div><h3>${escapeHtml(row.full_name)}</h3></div><span class="status ${escapeHtml(row.response)}">${statusLabels[row.response] || "Resposta"}</span></div>
       <p class="record-meta">Recebido em ${dateFormat(row.created_at)}${row.party_size ? ` · Grupo de ${row.party_size} pessoa(s)` : ""}</p>
       ${people.length ? `<ul class="companion-list">${people.map(person => `<li>${person}</li>`).join("")}</ul>` : "<p class=\"record-meta\">Sem cônjuge ou filhos informados.</p>"}
+      <p class="record-meta">${escapeHtml(consentDetails)}${row.privacy_notice_version ? ` · Aviso ${escapeHtml(row.privacy_notice_version)}` : ""}</p>
       ${row.message ? `<p><strong>Observação:</strong> ${escapeHtml(row.message)}</p>` : ""}</article>`;
   }).join("");
 }
 function exportCsv() {
-  const headers = ["Convidado", "Cônjuge", "Filhos", "Resposta", "Total do grupo", "Observação", "Data"];
-  const rows = allRecords.map(row => [row.full_name, row.spouse_coming ? row.spouse_name : "", (row.children || []).map(child => `${child.name} (${child.age} anos)`).join("; "), statusLabels[row.response] || row.response, row.party_size ?? "", row.message || "", dateFormat(row.created_at)]);
+  const headers = ["Convidado", "Cônjuge", "Filhos", "Resposta", "Total do grupo", "Data", "Consentimento", "Consentimento responsável", "Versão do aviso"];
+  const rows = allRecords.map(row => [row.full_name, row.spouse_coming ? row.spouse_name : "", (row.children || []).map(child => `${child.name} (${child.age} anos)`).join("; "), statusLabels[row.response] || row.response, row.party_size ?? "", dateFormat(row.created_at), row.privacy_consent_at ? dateFormat(row.privacy_consent_at) : "", row.children_consent_at ? dateFormat(row.children_consent_at) : "", row.privacy_notice_version || ""]);
   const csvCell = value => `"${String(value ?? "").replace(/"/g, '""')}"`;
   const csv = [headers, ...rows].map(row => row.map(csvCell).join(";")).join("\r\n");
   const url = URL.createObjectURL(new Blob(["\ufeff", csv], { type: "text/csv;charset=utf-8;" }));

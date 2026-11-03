@@ -47,6 +47,7 @@
     <footer class="site-footer">
       <div class="ornament" aria-hidden="true"><span></span><i></i><span></span></div>
       <p>Será ainda mais especial com você.</p>
+      <a class="privacy-link" href="privacidade.html">Privacidade dos dados</a>
     </footer>
   </main>
 
@@ -78,13 +79,19 @@
         </fieldset>
       </div>
 
-      <div class="field">
-        <label for="message">Observação (opcional)</label>
-        <textarea id="message" name="message" rows="3" maxlength="500" placeholder="Se precisar, deixe uma observação."></textarea>
+      <div class="privacy-consents">
+        <label class="checkbox-field consent-checkbox">
+          <input id="privacy-consent" type="checkbox" required>
+          <span>Li o <a href="privacidade.html" target="_blank" rel="noopener">aviso de privacidade</a> e autorizo o uso dos meus dados. Confirmo que as pessoas adultas incluídas foram informadas sobre este uso. *</span>
+        </label>
+        <label class="checkbox-field consent-checkbox" id="children-consent-field" hidden>
+          <input id="children-consent" type="checkbox">
+          <span>Sou pai, mãe ou responsável legal pelas crianças/adolescentes informados e autorizo o tratamento de seus nomes e idades somente para organizar este evento. *</span>
+        </label>
       </div>
       <p class="form-error" id="form-error" role="alert"></p>
       <button class="submit-button" id="submit-button" type="submit">Enviar resposta</button>
-      <p class="privacy-note">Seus dados serão usados apenas para organizar as confirmações do casamento.</p>
+      <p class="privacy-note">Não quer informar dados de crianças? Responda pelo contato que enviou o convite.</p>
     </form>
   </dialog>
 

@@ -135,6 +135,8 @@ h1 {
 .choice-maybe { grid-column: 1 / -1; justify-self: center; width: min(68%, 500px); background: rgba(226, 194, 165, .58); }
 .site-footer .ornament { margin-top: 0; }
 .site-footer p { margin: 12px 0 0; font-size: clamp(1.7rem, 4vw, 2.7rem); }
+.privacy-link, .policy-back { color: var(--accent-dark); text-decoration: underline; text-underline-offset: 3px; }
+.privacy-link { display: inline-block; margin-top: 10px; font-size: .95rem; }
 .rsvp-dialog {
   width: min(92vw, 620px);
   max-height: 90vh;
@@ -176,6 +178,10 @@ textarea { resize: vertical; }
 .add-child, .remove-child { border: 0; padding: 8px 0; color: var(--accent-dark); background: transparent; text-decoration: underline; }
 .remove-child { font-size: .9rem; }
 .form-note { margin: 8px 0 18px; }
+.privacy-consents { display: grid; gap: 14px; margin: 20px 0 14px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255, 249, 242, .48); }
+.consent-checkbox { align-items: flex-start; font-size: .95rem; line-height: 1.35; }
+.consent-checkbox input { flex: 0 0 18px; margin-top: 4px; }
+.consent-checkbox a { color: var(--accent-dark); text-decoration: underline; text-underline-offset: 2px; }
 .submit-button {
   width: 100%; min-height: 54px; border: 0; border-radius: 999px;
   background: var(--accent-dark); color: var(--white); font-weight: 600;
@@ -191,6 +197,14 @@ textarea { resize: vertical; }
   box-shadow: var(--shadow); transition: opacity .2s ease, transform .2s ease;
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
+.policy-shell { width: min(100% - 32px, 820px); margin: 0 auto; padding: clamp(24px, 6vw, 64px) 0; }
+.policy-card { padding: clamp(22px, 5vw, 48px); border: 1px solid rgba(112, 72, 45, .35); border-radius: 22px; background: rgba(255, 249, 242, .72); box-shadow: 0 22px 58px rgba(73, 48, 31, .12); }
+.policy-card h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 4.4rem); text-align: center; }
+.policy-card h2 { margin: 28px 0 8px; font-size: 1.45rem; text-align: left; }
+.policy-card p, .policy-card li { font-size: 1.05rem; line-height: 1.5; }
+.policy-card ul { padding-left: 1.25em; }
+.policy-meta { color: var(--muted); text-align: center; }
+.policy-back { display: block; margin-top: 28px; text-align: center; }
 @media (max-width: 560px) {
   body { font-size: 18px; }
   .invitation { width: min(100% - 24px, 980px); padding-top: 28px; }

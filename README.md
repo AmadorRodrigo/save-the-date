@@ -5,12 +5,13 @@ Convite estático em HTML, CSS e JavaScript. O envio de respostas usa Supabase q
 ## Arquivos
 
 - `index.html`, `styles.css`, `app.js`: convite, estilos responsivos e formulário.
+- `privacidade.html`: aviso de privacidade acessível antes do envio da resposta.
 - `assets/coffee-branch.svg`: ramo vetorial de café feito para a composição.
 - `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4`: vídeo atualmente em destaque.
 - `assets/Save the Date_ Nosso Café Para Sempre.png`: imagem de referência e pôster do vídeo.
 - `supabase-config.js`: URL e chave publicável compartilhadas pelo site e painel.
 - `admin.html`, `admin.css`, `admin.js`: painel privado, busca, filtros e CSV.
-- `supabase-schema.sql`: esquema e políticas de acesso.
+- `supabase-schema.sql`: esquema, políticas de acesso, registro de consentimento e retenção.
 
 ## Referência visual e vídeo
 
@@ -20,13 +21,13 @@ O vídeo atual é `assets/WhatsApp Video 2026-11-02 at 20.40.58.mp4` (MP4/H.264)
 
 ## Supabase — configuração necessária
 
-URL e chave publicável do projeto já estão preenchidas em `supabase-config.js`. Para ativar o envio online e liberar o painel somente para o casal:
+URL e chave publicável do projeto já estão preenchidas em `supabase-config.js`. O convite é público; somente as contas do casal podem consultar as respostas. A migration `supabase/migrations/20261103024500_lgpd_rsvp_privacy.sql` registra consentimentos e reforça as políticas:
 
-1. `supabase/config.toml` e `supabase/migrations/20261102000000_wedding_rsvp.sql` configuram e definem o esquema, as políticas RLS e os dois e-mails autorizados. Na integração Supabase/GitHub, use a raiz do repositório (`.`) como working directory e habilite **Deploy to production** para aplicar migrations na branch de produção. `supabase-schema.sql` é a cópia para aplicação manual no SQL Editor; não aplique os dois fluxos depois que a migration já tiver sido executada. O script remove campos antigos (`phone`, `companions`); faça backup se houver respostas importantes.
-2. Crie/convide as duas contas em **Authentication → Users** com os mesmos e-mails cadastrados na migration.
-3. A URL e a chave publicável já estão em `supabase-config.js`. Nunca use `service_role` ou chave secreta no navegador.
+1. A integração Supabase/GitHub deve acompanhar a raiz (`.`) e aplicar migrations na branch de produção `main`. Se ela não executar a nova migration, cole o conteúdo atualizado de `supabase-schema.sql` no SQL Editor. Não digite o nome do arquivo no editor.
+2. Crie/convide as duas contas em **Authentication → Users** com os e-mails cadastrados na migration.
+3. Nunca use `service_role` ou chave `secret` no navegador; `supabase-config.js` contém somente a chave publicável.
 
-O formulário grava apenas nome da pessoa convidada, resposta, cônjuge opcional, filhos com nome e idade e observação opcional. Não oferece acompanhantes extras nem coleta telefone. Respostas públicas permitem apenas inserção. Somente sessões autenticadas cujo e-mail conste em `admin_emails` podem consultar confirmações; o painel é somente leitura. A constraint e a política RLS limitam cada RSVP à pessoa convidada, cônjuge e até 20 filhos. Não abra as permissões do banco nem habilite consulta pública.
+O formulário grava somente nomes completos, resposta, presença e nome do cônjuge, nomes e idades dos filhos, versão do aviso e os consentimentos com data. Não oferece acompanhantes extras e não coleta mensagens livres. Para menores de 18 anos, exige a declaração e autorização de pai, mãe ou responsável legal. Convidados podem inserir respostas válidas; somente sessões autenticadas cujo e-mail conste em `admin_emails` podem consultar confirmações. O banco agenda a exclusão das respostas a partir de 28/06/2027, 30 dias após o evento. Não abra as permissões do banco nem habilite consulta pública.
 
 ## Executar localmente
 
@@ -43,4 +44,4 @@ O envio online e o painel exigem que o SQL tenha sido aplicado e que as duas con
 
 ## Publicação
 
-`dist/` é gerado para o pacote estático e ignorado pelo Git. O convite é público para que os convidados abram o link sem login no ChatGPT. O painel (`admin.html`) exige autenticação Supabase, e as políticas RLS autorizam consultas somente às duas contas do casal.
+`dist/` é gerado para o pacote estático e ignorado pelo Git. O convite fica acessível sem login; o painel (`admin.html`) continua protegido por autenticação Supabase e RLS.
